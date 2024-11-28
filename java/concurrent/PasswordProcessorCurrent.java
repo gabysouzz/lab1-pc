@@ -2,8 +2,17 @@ import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 
-public class PasswordProcessorSerial {
-    public static void main(String[] args) {
+public class PasswordProcessorCurrent{
+    public static void main(String[] args) throws InterruptedException {
+
+        PasswordProcessorCurrent PasswordProcessor = new PasswordProcessorCurrent();
+
+        NewThread thread = new NewThread();
+        thread.start();
+        Thread myThread = new Thread("myThread-Task");
+        myThread.start();
+        myThread.join();
+
         if (args.length < 1) {
             System.out.println("Uso: java PasswordProcessorSerial <caminho_do_diretorio>");
             return;
@@ -28,28 +37,19 @@ public class PasswordProcessorSerial {
         }
     }
 
+    private static class processFile implements Runnable{
+        private final File[] files;
+
+        @Override
+        public void run() {
+           
+           
+        }
+        
+    }
+
     private static void processFile(File file) {
-        System.out.println("Processing file: " + file.getName());
-        List<String> obfuscatedLines = new ArrayList<>();
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                obfuscatedLines.add(rot13(line)); // Adiciona a linha ofuscada à lista
-            }
-        } catch (IOException e) {
-            System.out.println("Erro ao ler o arquivo " + file.getName() + ": " + e.getMessage());
-            return;
-        }
-
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-            for (String obfuscatedLine : obfuscatedLines) {
-                writer.write(obfuscatedLine);
-                writer.newLine();
-            }
-        } catch (IOException e) {
-            System.out.println("Erro ao escrever no arquivo " + file.getName() + ": " + e.getMessage());
-        }
+        
     }
 
     private static String rot13(String input) {
@@ -65,5 +65,11 @@ public class PasswordProcessorSerial {
         }
         return result.toString();
     }
+
+    static class NewThread extends Thread{
+        
+    }
+
+
 }
 
